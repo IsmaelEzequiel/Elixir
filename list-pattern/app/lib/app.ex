@@ -1,21 +1,4 @@
 defmodule App do
-  @moduledoc """
-  Documentation for `App`.
-  """
-
-  @doc """
-  Hello world.
-
-  ## Examples
-
-      iex> App.hello()
-      :world
-
-  """
-  def hello do
-    :world
-  end
-
   def fac(0), do: 1
   def fac(n) when is_number(n) and n > 1, do: n * fac(n - 1)
   def fac(_), do: :invalid_number
@@ -46,14 +29,8 @@ defmodule App do
     raise "can't swap odd numbers"
   end
 
-  def filter_for_27([], _), do: []
-  def filter_for_27([ head = [_, target, _, _] | tail], target) do
-    [head|filter_for_27(tail, target)]
-  end
-  def filter_for_27([_|tail], target), do: filter_for_27(tail, target)
-
   @defaults [name: "PADRAO 1", surname: "PADRAO 2"]
-  def get_name(n, opt \\ []) do
+  def get_name(opt \\ []) do
     opt = Keyword.merge(@defaults, opt)
     IO.puts("Hi #{opt[:name]} #{opt[:surname]}")
     IO.puts("Hi #{Keyword.get(opt, :name)} #{Keyword.get(opt, :surname)}")
@@ -68,5 +45,30 @@ defmodule App do
       name
     end
   end
-end
 
+  @peoples [
+    %{name: "ismael", age: 28},
+    %{name: "lidia", age: 25},
+    %{name: "Eduarda", age: 26},
+    %{name: "Ezequiel", age: 29}
+  ]
+
+  def print_names do
+    for person = %{ age: age } <- @peoples, age > 25, do: person
+  end
+
+  def a do
+    @peoples |> Enum.map(& &1[:name])
+  end
+
+  def b do
+    customer = %Customer{name: "Lidia", company: "none"}
+    report = %BugReport{owner: customer, details: "empty", severity: 2}
+
+    report
+  end
+
+  def tamanho(valor, segundo) do
+    String.length(valor) + String.length(segundo)
+  end
+end
