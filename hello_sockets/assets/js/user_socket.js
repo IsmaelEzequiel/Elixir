@@ -6,7 +6,7 @@ import {Socket} from "phoenix"
 
 // And connect to the path in "lib/hello_sockets_web/endpoint.ex". We pass the
 // token for authentication. Read below how it should be used.
-let socket = new Socket("/socket", {params: {token: window.userToken}})
+let socket = new Socket("/auth_socket", {params: {token: window.authToken}})
 
 // When you connect, you'll often need to authenticate the client.
 // For example, imagine you have an authentication plug, `MyAuth`,
@@ -51,29 +51,21 @@ let socket = new Socket("/socket", {params: {token: window.userToken}})
 //     end
 //
 // Finally, connect to the socket:
+socket.onOpen(() => console.log("Connected!"))
 socket.connect()
 
 // Now that you are connected, you can join channels with a topic.
 // Let's assume you have a channel with a topic named `room` and the
 // subtopic is its id - in this case 42:
-let channel = socket.channel("ping:lobby", {})
+let channel = socket.channel(`user:${window.userId}`, {})
 channel.join()
   .receive("ok", resp => { console.log("Joined successfully", resp) })
   .receive("error", resp => { console.log("Unable to join", resp) })
 
-channel.on("ping", function (info) {
-  console.log(info)
+channel.push("nomeboy")
+  .receive("ok", (res) => console.log(res))
+  .receive("error", (resp) => console.error("won't happen yet"))
+  .receive("timeout", (resp) => console.error("pong message timeout", resp))
 
-  channel.push("ping")
-    .receive("ok", (res) => console.log(res))
-    .receive("error", (resp) => console.error("won't happen yet"))
-    .receive("timeout", (resp) => console.error("pong message timeout", resp))
-
-  channel.push("param_ping", { "ismael": "casado" })
-    .receive("ok", (res) => console.log(res))
-
-  channel.push("param_ping", { error: true, arr: [1,2] })
-    .receive("error", (res) => console.log(res))
-})
 
 export default socket
