@@ -19,7 +19,7 @@ config :hello_sockets, HelloSocketsWeb.Endpoint,
     layout: false
   ],
   pubsub_server: HelloSockets.PubSub,
-  live_view: [signing_salt: "vkVTNmPa"]
+  live_view: [signing_salt: "WVbJDl0S"]
 
 # Configures the mailer
 #

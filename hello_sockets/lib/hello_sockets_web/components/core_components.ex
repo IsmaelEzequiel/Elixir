@@ -19,6 +19,8 @@ defmodule HelloSocketsWeb.CoreComponents do
   alias Phoenix.LiveView.JS
   use Gettext, backend: HelloSocketsWeb.Gettext
 
+  alias Phoenix.LiveView.JS
+
   @doc """
   Renders a modal.
 
