@@ -2,7 +2,7 @@ defmodule HelloSocketsWeb.UserChannel do
   use HelloSocketsWeb, :channel
 
   @impl true
-  def join("user:lobby", payload, socket) do
+  def join("user", payload, socket) do
     if authorized?(payload) do
       {:ok, socket}
     else

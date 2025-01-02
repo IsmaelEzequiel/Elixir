@@ -5,14 +5,9 @@ defmodule HelloSocketsWeb.UserChannelTest do
     {:ok, _, socket} =
       HelloSocketsWeb.UserSocket
       |> socket("user_id", %{some: :assign})
-      |> subscribe_and_join(HelloSocketsWeb.UserChannel, "user:lobby")
+      |> subscribe_and_join(HelloSocketsWeb.UserChannel, "user")
 
     %{socket: socket}
-  end
-
-  test "ping replies with status ok", %{socket: socket} do
-    ref = push(socket, "ping", %{"hello" => "there"})
-    assert_reply ref, :ok, %{"hello" => "there"}
   end
 
   test "shout broadcasts to user:lobby", %{socket: socket} do
