@@ -16,6 +16,7 @@ defmodule HelloSockets.Application do
       # Start a worker by calling: HelloSockets.Worker.start_link(arg)
       # {HelloSockets.Worker, arg},
       # Start to serve requests, typically the last entry
+      HelloSockets.Repo,
       HelloSocketsWeb.Endpoint
     ]
 

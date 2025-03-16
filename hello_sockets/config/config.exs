@@ -7,6 +7,16 @@
 # General application configuration
 import Config
 
+config :hello_sockets, HelloSockets.Repo,
+  database: "hello_sockets_dev",
+  username: "postgres",
+  password: "postgres",
+  hostname: "localhost",
+  show_sensitive_data_on_connection_error: true,
+  pool_size: 10
+
+config :hello_sockets, ecto_repos: [HelloSockets.Repo]
+
 config :hello_sockets,
   generators: [timestamp_type: :utc_datetime]
 

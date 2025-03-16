@@ -10,8 +10,4 @@ defmodule HelloSocketsWeb.AuthChannel do
       {:error, %{reason: "unauthorized"}}
     end
   end
-
-  def handle_in("nomeboy", _payload, socket) do
-    {:reply, {:ok, %{ name: "Ismael Ezequiel" }}, socket}
-  end
 end

@@ -17,4 +17,9 @@ defmodule HelloSocketsWeb.PageController do
   defp generate_auth_token(conn, user_id) do
     Phoenix.Token.sign(conn, @secret_key, user_id)
   end
+
+  # API
+  def hello_api(conn, %{ "name" => name }) do
+    json(conn, %{ name: name, loves: "Lídia Eduarda" })
+  end
 end
