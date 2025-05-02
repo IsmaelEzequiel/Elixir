@@ -128,6 +128,12 @@ defmodule Pento.Account do
     |> Ecto.Changeset.apply_action(:update)
   end
 
+  def update_username(user, attrs) do
+    user
+    |> User.username_changeset(attrs)
+    |> Repo.update()
+  end
+
   @doc """
   Updates the user email using the given token.
 
@@ -185,6 +191,10 @@ defmodule Pento.Account do
   """
   def change_user_password(user, attrs \\ %{}) do
     User.password_changeset(user, attrs, hash_password: false)
+  end
+
+  def change_username(user, attrs \\ %{}) do
+    User.username_changeset(user, attrs)
   end
 
   @doc """

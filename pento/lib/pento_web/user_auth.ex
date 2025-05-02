@@ -27,12 +27,13 @@ defmodule PentoWeb.UserAuth do
   """
   def log_in_user(conn, user, params \\ %{}) do
     token = Account.generate_user_session_token(user)
+    user_return_to = get_session(conn, :user_return_to)
 
     conn
     |> renew_session()
     |> put_token_in_session(token)
     |> maybe_write_remember_me_cookie(token, params)
-    |> redirect(to: ~p"/guess" || signed_in_path(conn))
+    |> redirect(to: user_return_to || signed_in_path(conn))
   end
 
   defp maybe_write_remember_me_cookie(conn, token, %{"remember_me" => "true"}) do
@@ -225,5 +226,5 @@ defmodule PentoWeb.UserAuth do
 
   defp maybe_store_return_to(conn), do: conn
 
-  defp signed_in_path(_conn), do: ~p"/"
+  defp signed_in_path(_conn), do: ~p"/guess"
 end

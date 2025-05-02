@@ -13,47 +13,6 @@ Pento.Account
     )}
   end
 
-  @spec render(any) :: Phoenix.LiveView.Rendered.t()
-  def render(assigns) do
-    ~H"""
-      <h1>Welcome back <%= assigns.current_user.username %>, your score is: <%= @score %></h1>
-
-      <h2>
-        <%= @message %>
-
-        <br>
-        <%= assigns.session_id %> - <%= @current_user.username %>
-      </h2>
-
-      <br>
-
-      <h3>Target: <%= @target %></h3>
-
-      <br>
-
-      <%= for n <- 1..10 do %>
-        <.link
-          class="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded m-1"
-          href="#"
-          phx-click="guess"
-          phx-value-number={n}
-        >
-          <button><%= n %></button>
-        </.link>
-      <% end %>
-
-      <h1>
-        <.link
-          class="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded m-1"
-          href="#"
-          phx-click="restart"
-        >
-          <button>RESTART</button>
-        </.link>
-      </h1>
-    """
-  end
-
   def handle_event("guess", %{"number" => guess}, socket) do
     guess = String.to_integer(guess)
 
