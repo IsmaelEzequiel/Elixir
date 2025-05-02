@@ -33,7 +33,7 @@ defmodule PentoWeb.UserAuth do
     |> renew_session()
     |> put_token_in_session(token)
     |> maybe_write_remember_me_cookie(token, params)
-    |> redirect(to: user_return_to || signed_in_path(conn))
+    |> redirect(to: ~p"/guess" || signed_in_path(conn))
   end
 
   defp maybe_write_remember_me_cookie(conn, token, %{"remember_me" => "true"}) do
@@ -151,6 +151,7 @@ defmodule PentoWeb.UserAuth do
 
   def on_mount(:ensure_authenticated, _params, session, socket) do
     socket = mount_current_user(socket, session)
+    socket = Phoenix.Component.assign_new(socket, :session_id, fn -> session["live_socket_id"] end)
 
     if socket.assigns.current_user do
       {:cont, socket}

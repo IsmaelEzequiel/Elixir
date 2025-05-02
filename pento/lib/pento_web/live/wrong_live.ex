@@ -1,7 +1,10 @@
 defmodule PentoWeb.WrongLive do
+Pento.Account
   use PentoWeb, :live_view
 
   def mount(_params, _session, socket) do
+    socket = assign(socket, page_title: "Guess Game")
+
     {:ok,
       assign(socket,
       score: 0,
@@ -13,10 +16,13 @@ defmodule PentoWeb.WrongLive do
   @spec render(any) :: Phoenix.LiveView.Rendered.t()
   def render(assigns) do
     ~H"""
-      <h1>Welcome back <%= assigns.current_user.email %>, your score is: <%= @score %></h1>
+      <h1>Welcome back <%= assigns.current_user.username %>, your score is: <%= @score %></h1>
 
       <h2>
         <%= @message %>
+
+        <br>
+        <%= assigns.session_id %> - <%= @current_user.username %>
       </h2>
 
       <br>
@@ -26,13 +32,22 @@ defmodule PentoWeb.WrongLive do
       <br>
 
       <%= for n <- 1..10 do %>
-        <.link href="#" phx-click="guess" phx-value-number={n}>
+        <.link
+          class="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded m-1"
+          href="#"
+          phx-click="guess"
+          phx-value-number={n}
+        >
           <button><%= n %></button>
         </.link>
       <% end %>
 
       <h1>
-        <.link href="#" phx-click="restart">
+        <.link
+          class="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded m-1"
+          href="#"
+          phx-click="restart"
+        >
           <button>RESTART</button>
         </.link>
       </h1>
@@ -44,7 +59,7 @@ defmodule PentoWeb.WrongLive do
 
     message =
       if socket.assigns.target == guess do
-        "You won the game!!!"
+        "You won the game, #{socket.assigns.current_user.email}!!!"
       else
         "Your guess was #{guess}. Wrong. Guess again!"
       end

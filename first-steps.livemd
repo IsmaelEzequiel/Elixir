@@ -1,0 +1,299 @@
+<!-- livebook:{"persist_outputs":true} -->
+
+# Untitled notebook
+
+```elixir
+Mix.install(
+  [
+    {:kino_bumblebee, "~> 0.5.0"},
+    {:exla, ">= 0.0.0"}
+  ],
+  config: [nx: [default_backend: EXLA.Backend]]
+)
+```
+
+## Section
+
+```elixir
+IO.inspect("Lidia Linda! Te amo!!!")
+```
+
+<!-- livebook:{"output":true} -->
+
+```
+"Lidia Linda! Te amo!!!"
+```
+
+<!-- livebook:{"output":true} -->
+
+```
+"Lidia Linda! Te amo!!!"
+```
+
+```elixir
+# Lista
+[h | t] = [1, 2, 3, 2]
+```
+
+<!-- livebook:{"output":true} -->
+
+```
+[1, 2, 3, 2]
+```
+
+```elixir
+# Tupla
+a = { "casa", "casca" }
+elem(a, 0)
+Tuple.insert_at(a, 0, 1)
+```
+
+<!-- livebook:{"output":true} -->
+
+```
+{1, "casa", "casca"}
+```
+
+```elixir
+Enum.__info__(:functions) |> Enum.map(fn{ function, arity } ->
+  IO.puts("#{function}/#{arity}")
+end)
+```
+
+<!-- livebook:{"output":true} -->
+
+```
+all?/1
+all?/2
+any?/1
+any?/2
+at/2
+at/3
+chunk/2
+chunk/3
+chunk/4
+chunk_by/2
+chunk_every/2
+chunk_every/3
+chunk_every/4
+chunk_while/4
+concat/1
+concat/2
+count/1
+count/2
+count_until/2
+count_until/3
+dedup/1
+dedup_by/2
+drop/2
+drop_every/2
+drop_while/2
+each/2
+empty?/1
+fetch/2
+fetch!/2
+filter/2
+filter_map/3
+find/2
+find/3
+find_index/2
+find_value/2
+find_value/3
+flat_map/2
+flat_map_reduce/3
+frequencies/1
+frequencies_by/2
+group_by/2
+group_by/3
+intersperse/2
+into/2
+into/3
+join/1
+join/2
+map/2
+map_every/3
+map_intersperse/3
+map_join/2
+map_join/3
+map_reduce/3
+max/1
+max/2
+max/3
+max_by/2
+max_by/3
+max_by/4
+member?/2
+min/1
+min/2
+min/3
+min_by/2
+min_by/3
+min_by/4
+min_max/1
+min_max/2
+min_max_by/2
+min_max_by/3
+min_max_by/4
+partition/2
+product/1
+product_by/2
+random/1
+reduce/2
+reduce/3
+reduce_while/3
+reject/2
+reverse/1
+reverse/2
+reverse_slice/3
+scan/2
+scan/3
+shuffle/1
+slice/2
+slice/3
+slide/3
+sort/1
+sort/2
+sort_by/2
+sort_by/3
+split/2
+split_while/2
+split_with/2
+sum/1
+sum_by/2
+take/2
+take_every/2
+take_random/2
+take_while/2
+to_list/1
+uniq/1
+uniq/2
+uniq_by/2
+unzip/1
+with_index/1
+with_index/2
+zip/1
+zip/2
+zip_reduce/3
+zip_reduce/4
+zip_with/2
+zip_with/3
+```
+
+<!-- livebook:{"output":true} -->
+
+```
+[:ok, :ok, :ok, :ok, :ok, :ok, :ok, :ok, :ok, :ok, :ok, :ok, :ok, :ok, :ok, :ok, :ok, :ok, :ok, :ok,
+ :ok, :ok, :ok, :ok, :ok, :ok, :ok, :ok, :ok, :ok, :ok, :ok, :ok, :ok, :ok, :ok, :ok, :ok, :ok, :ok,
+ :ok, :ok, :ok, :ok, :ok, :ok, :ok, :ok, :ok, :ok, ...]
+```
+
+```elixir
+Enum.all?(["casa", "coisa", "casado"], fn(s) -> String.length(s) == 4 end)
+```
+
+<!-- livebook:{"output":true} -->
+
+```
+false
+```
+
+```elixir
+Enum.any?(["casa", "coisa", "casado"], &(String.length(&1) == 4))
+```
+
+<!-- livebook:{"output":true} -->
+
+```
+true
+```
+
+```elixir
+Enum.chunk_every([1, 2, 3, 4, 5, 6, 7, 8, 9], 4, 2, :discard)
+```
+
+<!-- livebook:{"output":true} -->
+
+```
+[[1, 2, 3, 4], [3, 4, 5, 6], [5, 6, 7, 8]]
+```
+
+```elixir
+["one", "two", "three", "four", "five", "lidia", "casa"]
+|> Enum.chunk_by(&(String.length(&1))) 
+```
+
+<!-- livebook:{"output":true} -->
+
+```
+[["one", "two"], ["three"], ["four", "five"], ["lidia"], ["casa"]]
+```
+
+```elixir
+{:ok, casa, :outro, m} = {:ok, "casamneto", :outro, "mae"}
+casa
+```
+
+<!-- livebook:{"output":true} -->
+
+```
+"casamneto"
+```
+
+```elixir
+%{jogo: k} = %{kel: "lidia", casa: "casamento", jogo: "lol"}
+k
+```
+
+<!-- livebook:{"output":true} -->
+
+```
+"lol"
+```
+
+```elixir
+q = fn
+  ("hello", name) -> "Hi, #{name}"
+  (greet, name) -> "#{greet}, #{name}"
+end
+q.("hello", "Ismael")
+```
+
+<!-- livebook:{"output":true} -->
+
+```
+"Hi, Ismael"
+```
+
+```elixir
+hello = {:ok, "hello world", "rest", "world"}
+case hello do
+  {:ok, rest, _, _} -> rest
+  {:error, err, _, _} -> err
+end
+```
+
+<!-- livebook:{"output":true} -->
+
+```
+"hello world"
+```
+
+```elixir
+mapa = %{err: "kel", name: "pai"}
+case mapa do
+  %{ok: ok, name: n} -> IO.puts("#{ok}, #{n}")
+  %{err: err} -> IO.puts("#{err}")
+end
+```
+
+<!-- livebook:{"output":true} -->
+
+```
+kel
+```
+
+<!-- livebook:{"output":true} -->
+
+```
+:ok
+```

@@ -17,7 +17,7 @@ defmodule PentoWeb.CoreComponents do
   use Phoenix.Component
 
   alias Phoenix.LiveView.JS
-  import PentoWeb.Gettext
+  use Gettext, backend: PentoWeb.Gettext
 
   @doc """
   Renders a modal.
