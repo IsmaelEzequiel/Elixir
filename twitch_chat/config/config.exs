@@ -7,33 +7,20 @@
 # General application configuration
 import Config
 
-config :pento, Oban,
-  engine: Oban.Engines.Basic,
-  notifier: Oban.Notifiers.Postgres,
-  queues: [default: 10],
-  repo: Pento.Repo,
-  plugins: [
-    {Oban.Plugins.Cron,
-      crontab: [
-        {"0 * * * *", Pento.Worker.DeliverEmail, max_attempts: 2, args: %{email: "ismael@ismael.com"}},
-      ]
-    }
-  ]
-
-config :pento,
-  ecto_repos: [Pento.Repo],
+config :twitch_chat,
+  ecto_repos: [TwitchChat.Repo],
   generators: [timestamp_type: :utc_datetime]
 
 # Configures the endpoint
-config :pento, PentoWeb.Endpoint,
+config :twitch_chat, TwitchChatWeb.Endpoint,
   url: [host: "localhost"],
   adapter: Bandit.PhoenixAdapter,
   render_errors: [
-    formats: [html: PentoWeb.ErrorHTML, json: PentoWeb.ErrorJSON],
+    formats: [html: TwitchChatWeb.ErrorHTML, json: TwitchChatWeb.ErrorJSON],
     layout: false
   ],
-  pubsub_server: Pento.PubSub,
-  live_view: [signing_salt: "dCzhA1BK"]
+  pubsub_server: TwitchChat.PubSub,
+  live_view: [signing_salt: "AQ8fKoIG"]
 
 # Configures the mailer
 #
@@ -42,32 +29,31 @@ config :pento, PentoWeb.Endpoint,
 #
 # For production it's recommended to configure a different adapter
 # at the `config/runtime.exs`.
-config :pento, Pento.Mailer, adapter: Swoosh.Adapters.Local
+config :twitch_chat, TwitchChat.Mailer, adapter: Swoosh.Adapters.Local
 
 # Configure esbuild (the version is required)
 config :esbuild,
   version: "0.17.11",
-  pento: [
+  twitch_chat: [
     args:
-      ~w(js/app.js --bundle --target=es2017 --outdir=../priv/static/assets --external:/fonts/* --external:/images/*),
+      ~w(js/app.js --bundle --target=es2022 --outdir=../priv/static/assets/js --external:/fonts/* --external:/images/*),
     cd: Path.expand("../assets", __DIR__),
     env: %{"NODE_PATH" => Path.expand("../deps", __DIR__)}
   ]
 
 # Configure tailwind (the version is required)
 config :tailwind,
-  version: "3.4.3",
-  pento: [
+  version: "4.0.9",
+  twitch_chat: [
     args: ~w(
-      --config=tailwind.config.js
-      --input=css/app.css
-      --output=../priv/static/assets/app.css
+      --input=assets/css/app.css
+      --output=priv/static/assets/css/app.css
     ),
-    cd: Path.expand("../assets", __DIR__)
+    cd: Path.expand("..", __DIR__)
   ]
 
 # Configures Elixir's Logger
-config :logger, :console,
+config :logger, :default_formatter,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
 

@@ -1,15 +1,16 @@
-defmodule Pento.MixProject do
+defmodule TwitchChat.MixProject do
   use Mix.Project
 
   def project do
     [
-      app: :pento,
+      app: :twitch_chat,
       version: "0.1.0",
-      elixir: "~> 1.14",
+      elixir: "~> 1.15",
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
-      deps: deps()
+      deps: deps(),
+      listeners: [Phoenix.CodeReloader]
     ]
   end
 
@@ -18,7 +19,7 @@ defmodule Pento.MixProject do
   # Type `mix help compile.app` for more information.
   def application do
     [
-      mod: {Pento.Application, []},
+      mod: {TwitchChat.Application, []},
       extra_applications: [:logger, :runtime_tools]
     ]
   end
@@ -32,19 +33,17 @@ defmodule Pento.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:bcrypt_elixir, "~> 3.0"},
-      {:phoenix, "~> 1.7.14"},
+      {:phoenix, "~> 1.8.0-rc.0", override: true},
       {:phoenix_ecto, "~> 4.5"},
       {:ecto_sql, "~> 3.10"},
       {:postgrex, ">= 0.0.0"},
       {:phoenix_html, "~> 4.1"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
-      # TODO bump on release to {:phoenix_live_view, "~> 1.0.0"},
-      {:phoenix_live_view, "~> 1.0.0-rc.1", override: true},
+      {:phoenix_live_view, "~> 1.0"},
       {:floki, ">= 0.30.0", only: :test},
       {:phoenix_live_dashboard, "~> 0.8.3"},
-      {:esbuild, "~> 0.8", runtime: Mix.env() == :dev},
-      {:tailwind, "~> 0.2", runtime: Mix.env() == :dev},
+      {:esbuild, "~> 0.9", runtime: Mix.env() == :dev},
+      {:tailwind, "~> 0.3", runtime: Mix.env() == :dev},
       {:heroicons,
        github: "tailwindlabs/heroicons",
        tag: "v2.1.1",
@@ -52,17 +51,14 @@ defmodule Pento.MixProject do
        app: false,
        compile: false,
        depth: 1},
-      {:swoosh, "~> 1.5"},
-      {:finch, "~> 0.13"},
+      {:swoosh, "~> 1.16"},
+      {:req, "~> 0.5"},
       {:telemetry_metrics, "~> 1.0"},
       {:telemetry_poller, "~> 1.0"},
-      {:gettext, "~> 0.20"},
+      {:gettext, "~> 0.26"},
       {:jason, "~> 1.2"},
       {:dns_cluster, "~> 0.1.1"},
-      {:bandit, "~> 1.5"},
-      {:oban, "~> 2.19"},
-      {:oban_web, "~> 2.11"},
-      {:igniter, "~> 0.5", only: [:dev]}
+      {:bandit, "~> 1.5"}
     ]
   end
 
@@ -79,10 +75,10 @@ defmodule Pento.MixProject do
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
       "assets.setup": ["tailwind.install --if-missing", "esbuild.install --if-missing"],
-      "assets.build": ["tailwind pento", "esbuild pento"],
+      "assets.build": ["tailwind twitch_chat", "esbuild twitch_chat"],
       "assets.deploy": [
-        "tailwind pento --minify",
-        "esbuild pento --minify",
+        "tailwind twitch_chat --minify",
+        "esbuild twitch_chat --minify",
         "phx.digest"
       ]
     ]

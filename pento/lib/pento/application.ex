@@ -7,17 +7,21 @@ defmodule Pento.Application do
 
   @impl true
   def start(_type, _args) do
+    Oban.Telemetry.attach_default_logger()
+
     children = [
       PentoWeb.Telemetry,
       Pento.Repo,
       {DNSCluster, query: Application.get_env(:pento, :dns_cluster_query) || :ignore},
+      {Oban, Application.fetch_env!(:pento, Oban)},
       {Phoenix.PubSub, name: Pento.PubSub},
       # Start the Finch HTTP client for sending emails
       {Finch, name: Pento.Finch},
       # Start a worker by calling: Pento.Worker.start_link(arg)
       # {Pento.Worker, arg},
       # Start to serve requests, typically the last entry
-      PentoWeb.Endpoint
+      PentoWeb.Endpoint,
+      # {Pento.WebhookWorker, name: Pento.WebhookWorker}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

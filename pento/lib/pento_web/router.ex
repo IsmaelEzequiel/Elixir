@@ -1,6 +1,7 @@
 defmodule PentoWeb.Router do
   use PentoWeb, :router
 
+  import Oban.Web.Router
   import PentoWeb.UserAuth
 
   pipeline :browser do
@@ -42,6 +43,8 @@ defmodule PentoWeb.Router do
 
       live_dashboard "/dashboard", metrics: PentoWeb.Telemetry
       forward "/mailbox", Plug.Swoosh.MailboxPreview
+
+      oban_dashboard("/oban")
     end
   end
 

@@ -73,6 +73,12 @@ defmodule Pento.Catalog do
     |> Repo.update()
   end
 
+  def update_unit_price(%Product{} = product, attrs \\ %{}) do
+    product
+    |> Product.price_decrease_drop_changeset(attrs)
+    |> Repo.update()
+  end
+
   @doc """
   Deletes a product.
 
